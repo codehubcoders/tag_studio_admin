@@ -1,0 +1,70 @@
+<script>
+	import { NavbarBrand } from 'sveltestrap';
+</script>
+
+<div class="logo-area">
+	<NavbarBrand href={'#'}>
+ <h6>태그 스튜디오</h6>
+	</NavbarBrand>
+
+</div>
+
+<style lang="scss">
+	:global {
+		@import '../../../../src/assets/sass/mixins/media-queries';
+		@import '../../../../src/assets/sass/mixins/functions';
+
+		// Navbar Type
+		body.top-menu {
+			.navbar-left {
+				.top-menu {
+					margin-left: 30px;
+				}
+			}
+		}
+
+		.top-menu {
+			.search-form {
+				display: none;
+			}
+
+			.navbar-right {
+				@include e(menu) {
+					.nav-search {
+						display: block !important;
+					}
+				}
+			}
+
+			.sidebar {
+				display: none;
+
+				@include md {
+					display: block;
+				}
+			}
+
+			.contents {
+				padding-left: 15px;
+
+				@include md {
+					padding: 73px 15px 64px 16px;
+				}
+
+				@include sm {
+					padding: 56px 0 85px 0;
+				}
+			}
+
+			.footer-wrapper {
+				padding-left: 10px;
+			}
+		}
+
+		.side-menu {
+			.top-menu {
+				display: none;
+			}
+		}
+	}
+</style>
