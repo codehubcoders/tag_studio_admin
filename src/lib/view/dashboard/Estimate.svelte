@@ -101,14 +101,13 @@
 
 			thead {
 				tr {
-					
 					th {
 						font-size: 13px;
 						font-weight: 500;
 						line-height: 18px;
 						color: var(--color-light);
 						text-transform: uppercase;
-						padding: 15px;
+						padding: px 15px;
 						text-align: center !important;
 					}
 				}
