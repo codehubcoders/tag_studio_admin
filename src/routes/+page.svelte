@@ -2,7 +2,7 @@
 	import { onMount, afterUpdate } from 'svelte';
 	import { Spinner } from 'sveltestrap';
 	import { goto } from '$app/navigation';
-	// import { getItem } from '$lib/utility/localStorageController';
+	import { getItem } from '$lib/utility/localStorageController';
 	// import { inlineSvg } from '$lib/components/utilities/utilities';
 
 	let isAuthenticated = true;

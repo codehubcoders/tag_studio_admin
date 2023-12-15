@@ -5,10 +5,10 @@
 	import Sidebar from '../../lib/components/sidebar/Sidebar.svelte';
 	import Footer from '../../lib/components/footer/Footer.svelte';
 	import { Spinner } from 'sveltestrap';
-	// import { getItem } from '$lib/utility/localStorageController';
+	import { getItem } from '$lib/utility/localStorageController';
 	// import { inlineSvg } from '$lib/components/utilities/utilities';
 	import { goto } from '$app/navigation';
-	// import { page } from '$app/stores';
+	import { page } from '$app/stores';
 
 </script>
 
