@@ -2,6 +2,7 @@
 	import { onMount, afterUpdate } from 'svelte';
 	import LogoArea from '../../lib/components/header/LogoArea.svelte';
 	import NavAuthor from '../../lib/components/header/NavAuthor.svelte';
+	import TopMenu from '../../lib/components/header/TopMenu.svelte';
 	import Sidebar from '../../lib/components/sidebar/Sidebar.svelte';
 	import Footer from '../../lib/components/footer/Footer.svelte';
 	import { Spinner } from 'sveltestrap';
@@ -9,7 +10,21 @@
 	// import { inlineSvg } from '$lib/components/utilities/utilities';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	let currentPage = $page.url.pathname;
 
+
+		/* Active Top Menu */
+	function handleMenuType(e) {
+		e.preventDefault();
+		document.body.classList.add('top-menu');
+		document.body.classList.remove('side-menu');
+	}
+
+	function handleMenuTypeSide(e) {
+		e.preventDefault();
+		document.body.classList.add('side-menu');
+		document.body.classList.remove('top-menu');
+	}
 </script>
 
 <svelte:head>
@@ -21,6 +36,7 @@
 		<nav class="navbar navbar-light">
 			<div class="navbar-left">
 				<LogoArea />
+                <TopMenu />
 			</div>
 			<div class="navbar-right">
 				<ul class="navbar-right__menu">

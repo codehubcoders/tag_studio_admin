@@ -6,7 +6,9 @@
 	<NavbarBrand href={'#'}>
  <h6>태그 스튜디오</h6>
 	</NavbarBrand>
-
+	<a href={'#'} class="sidebar-toggle">
+		<img class="svg" alt="" src={'/img/svg/align-center-alt.svg'} />
+	</a>
 </div>
 
 <style lang="scss">

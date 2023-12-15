@@ -1,10 +1,61 @@
 {
-  "dashBoard":{
-    "myWork":{
-      "templalteName": ["템플릿1","템플릿2","템플릿3"],
-      "option": ["시안 A","시안 B","시안 C"],
-      "description": ["공정1","공정2","공정1"]
+  "dashBoard": {
+    "myWork": [{
+      "key": "1",
+      "img": "1.png",
+      "templateName": "템플릿이름테스트1",
+      "option": "시안 A",
+      "description": "작업설명1"
+    },
+    {
+      "key": "2",
+      "img": "2.png",
+      "templateName": "템플릿이름테스트2",
+      "option": "시안 B",
+      "description": "작업설명2"
+    },
+    {
+      "key": "3",
+      "img": "3.png",
+      "templateName": "템플릿이름테스트3",
+      "option": "시안 C",
+      "description": "작업설명3"
     }
+    ],
+    "myOrder": [
+      {
+      "key": "1",
+      "img": "1.png",
+      "templateName": "템플릿이름테스트1",
+      "option": "시안 A",
+      "name": "김태그",
+      "count" : 10
+    },
+    {
+      "key": "2",
+      "img": "2.png",
+      "templateName": "템플릿이름테스트2",
+      "option": "시안 B",
+      "name": "홍길동",
+      "count" : 10
+    },
+    {
+      "key": "3",
+      "img": "3.png",
+      "templateName": "템플릿이름테스트3",
+      "option": "시안 C",
+      "name": "미정",
+      "count" : 10
+    },
+    {
+      "key": "4",
+      "img": "4.png",
+      "templateName": "템플릿이름테스트3",
+      "option": "시안 C",
+      "name": "김길동",
+      "count" : 10
+    }
+    ]
   },
   "forcastOverview": {
     "today": {

@@ -1,8 +1,6 @@
 <script>
 	import topSaleData from './dashboardChartContent.json';
-	const myWorkData = topSaleData.dashBoard.myWork;
-	// let dataPeriod = myWorkData[myWork];
-	// export let dataPeriod;
+	const myOrderData = topSaleData.dashBoard.myOrder;
 	export let extraStyle = 'selling-table-wrap';
 	export let defaultTable = 'table--default';
 </script>
@@ -13,11 +11,12 @@
 			<tr>
 				<th>템플릿 이름</th>
 				<th>옵션</th>
-				<th>작업설명</th>
+				<th>갯수</th>
+				<th>현재담당자</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each myWorkData as data}
+			{#each myOrderData as data}
 				<tr>
 					<td>
 						<div class="selling-product-img d-flex align-items-center">
@@ -30,7 +29,8 @@
 						</div>
 					</td>
 					<td>{data.option}</td>
-					<td>{data.description}</td>
+					<td>{data.count}</td>
+					<td>{data.name}</td>
 				</tr>
 			{/each}
 		</tbody>

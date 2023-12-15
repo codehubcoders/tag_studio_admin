@@ -6,7 +6,9 @@
 	// import TotalLineChart from '@view/dashboard/demoOne/TotalLineChart.svelte';
 	// import SalesGrowth from '@view/dashboard/demoOne/SalesGrowth.svelte';
 	// import SalesByLocation from '@view/dashboard/demoOne/SalesByLocation.svelte';
-	import TopSellingProduct from '../../../lib/view/dashboard/TopSellingProduct.svelte';
+	// import TopSellingProduct from '../../../lib/view/dashboard/TopSellingProduct.svelte';
+	import MyWorkTable from '../../../lib/view/dashboard/MyWork.svelte';
+	import MyOderTable from '../../../lib/view/dashboard/MyOrder.svelte';
 	// import BrowserState from '@view/dashboard/demoOne/BrowserState.svelte';
 
 	// const overviewDataSorted = overviewCardData.slice(0, 4);
@@ -22,24 +24,29 @@
 	<Container fluid>
 		<Row>
 			<Col xxl={6} lg={6} class="mb-25 mt-20">
-            <Card class="border-0 px-25 top-selling-product">
-	<CardHeader class="px-0 border-0">
-		<h6>내 작업</h6>
-
-	</CardHeader>
-	<CardBody class="">
-		<!-- <TopSellingProduct {dataPeriod} /> -->
-	</CardBody>
-</Card>
-
+				<Card class="border-0 px-25 top-selling-product">
+					<CardHeader class="px-0 border-0">
+						<h6>내 작업</h6>
+					</CardHeader>
+				<CardBody class="">
+					<MyWorkTable />
+					</CardBody>
+				</Card>
 			</Col>
 
 			<Col xxl={6} lg={6} class="mb-25 mt-20">
-				<TopSellingProduct />
+				<Card class="border-0 px-25 top-selling-product">
+					<CardHeader class="px-0 border-0">
+						<h6>내 주문</h6>
+					</CardHeader>
+				<CardBody class="">
+					<MyOderTable />
+					</CardBody>
+				</Card>
 			</Col>
 
 		</Row>
-        		<Row>
+        		<!-- <Row>
 			<Col xxl={6} lg={6} class="mb-25 mt-20">
 				<TopSellingProduct />
 			</Col>
@@ -48,6 +55,6 @@
 				<TopSellingProduct />
 			</Col>
 
-		</Row>
+		</Row> -->
 	</Container>
 </div>
