@@ -1,10 +1,9 @@
 <script>
     import { onMount } from 'svelte';
-	import workerData from './workerData.json';
-	const workers = workerData.workers;
+	import kpiDatas from './kpiData.json';
+	const kpiData = kpiDatas.kpi;
 	export let extraStyle = 'selling-table-wrap';
 	export let defaultTable = 'table--default';
-    import AddMember from './AddMember.svelte'
 
 </script>
 
@@ -13,15 +12,21 @@
 		<thead>
 			<tr>				
 			    <th>번호</th>
-				<th>아이디</th>
-				<th>이름</th>
-				<th>연락처</th>
+				<th>헤더1</th>
+				<th>헤더2</th>
+				<th>헤더3</th>
+				<th>헤더4</th>
+				<th>헤더5</th>
+				<th>헤더6</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each workers as data}
+			{#each kpiData as data}
 				<tr>
 					<td>{data.key}</td>
+					<td>{data.id}</td>
+					<td>{data.name}</td>
+					<td>{data.phone}</td>
 					<td>{data.id}</td>
 					<td>{data.name}</td>
 					<td>{data.phone}</td>
