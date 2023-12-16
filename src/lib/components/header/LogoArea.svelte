@@ -3,7 +3,7 @@
 </script>
 
 <div class="logo-area">
-	<NavbarBrand href={'#'}>
+	<NavbarBrand href={'/dashboard'}>
  <h6>태그 스튜디오</h6>
 	</NavbarBrand>
 	<a href={'#'} class="sidebar-toggle">

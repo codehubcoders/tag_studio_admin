@@ -9,6 +9,9 @@
 		setItem('access_token', '');
 		goto(`/signin`);
 	};
+	const passwordSetting = () => {
+		goto(`/password`);
+	};
 </script>
 
 <div class="dropdown-custom">
@@ -30,7 +33,7 @@
 			<div class="nav-author__options">
 				<ul>
 					<li>
-						<a href={'#'}> <i class="uil uil-setting" /> 비밀번호 재설정</a>
+						<a href={'#'}  on:click={passwordSetting}> <i class="uil uil-setting" /> 비밀번호 재설정</a>
 					</li>
 				</ul>
 				<a href={'#'} class="nav-author__signout" on:click={(event) => handleSignOut(event)}>

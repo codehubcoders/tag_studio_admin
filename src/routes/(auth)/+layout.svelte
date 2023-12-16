@@ -3,9 +3,7 @@
 	import { goto } from '$app/navigation';
 
 		onMount(() => {
-	
 			goto(`/signin`);
-		
 	});
 
 </script>
