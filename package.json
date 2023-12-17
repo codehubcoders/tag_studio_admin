@@ -20,8 +20,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@beyonk/svelte-datepicker": "^13.0.3",
 		"@fontsource/fira-mono": "^5.0.8",
 		"axios": "^1.6.2",
+		"dayjs": "^1.11.10",
 		"js-cookie": "^3.0.5",
 		"ress": "^5.0.2",
 		"stores": "^1.0.0",

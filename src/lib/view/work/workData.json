@@ -1,0 +1,27 @@
+{
+    "work": [{
+      "key": "1",
+      "workName": "작업명데이터01",
+      "name": "담당자A",
+      "endtDate": "2023.12.10",
+      "startDate": "2023.12.17",
+      "state": ""
+    },
+    {
+      "key": "2",
+      "workName": "작업명데이터02",
+      "name": "담당자B",
+      "endtDate": "2023.12.10",
+      "startDate": "2023.12.17",
+      "state": "완료"
+    },
+    {
+      "key": "3",
+      "workName": "작업명데이터03",
+      "name": "담당자C",
+      "endtDate": "2023.12.10",
+      "startDate": "2023.12.17",
+      "state": "완료"
+    }
+    ]
+}

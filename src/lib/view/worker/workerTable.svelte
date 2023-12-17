@@ -4,7 +4,6 @@
 	const workers = workerData.workers;
 	export let extraStyle = 'selling-table-wrap';
 	export let defaultTable = 'table--default';
-    import AddMember from './AddMember.svelte'
 
 </script>
 
@@ -37,7 +36,7 @@
 	@import '../../../assets/sass/mixins/functions';
 
 	:global{
-		.top-selling-product{
+	.top-selling-product{
 			.card-body{
 				padding: 0 0 15px 0;
 			}

@@ -1,6 +1,6 @@
 <script>
     import WorkerTable from "../../../lib/view/worker/workerTable.svelte";
-	import { Row, Col, Card, CardHeader, CardBody, Form, FormGroup, Input, Label,Button } from 'sveltestrap';
+	import { Container, Row, Col, Card, CardHeader, CardBody, Form, FormGroup, Input, Label,Button } from 'sveltestrap';
     import { goto } from '$app/navigation';
 
     let isDisableView = true;
@@ -14,13 +14,13 @@
     }
 
 </script>
-
-<Card class="card-horizontal card-default card-md mb-4 mt-20">
+<div class="component-page mb-25">
+	<Container fluid>
+        <Card class="card-horizontal card-default card-md mb-4 mt-20">
 	<CardHeader>
 		<h6>작업자 관리</h6>
         	<Button color="secondary" size="sm" class="btn-squired mx-20 fw-500"
 			on:click={addmember}
-            
             >추가</Button>
 	</CardHeader>
 	<CardBody class="">
@@ -34,7 +34,8 @@
         <WorkerTable />
     </CardBody>
 </Card>
-
+</Container>
+</div>
 <style lang="scss">
 	:global {
 		@import '../../../../src/assets/sass/mixins/media-queries';

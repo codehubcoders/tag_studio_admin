@@ -1,4 +1,10 @@
 <script>
+    import { onMount } from 'svelte';
+	import workerData from './workerData.json';
+	const workers = workerData.workers;
+	export let extraStyle = 'selling-table-wrap';
+	export let defaultTable = 'table--default';
+	
 	import {
 		Row,
 		Col,
