@@ -18,8 +18,6 @@
 		Button
 	} from 'sveltestrap';
 
-	import workerData from './workerData.json';
-	const workers = workerData.workers;
 
     let isDisableView = workers.disable;
     function viewCheckbox() {
