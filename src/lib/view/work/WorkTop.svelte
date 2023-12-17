@@ -16,6 +16,14 @@
 
     dayjs.locale('ko');
     let selectedDate;
+
+  const customPlaceholders = {
+    date: '날짜 선택',
+    month: '월 선택',
+    year: '년도 선택',
+    chooseDate: '날짜를 선택하세요'
+  };
+
 </script>
 <Row>
 <Col md={5}>
@@ -48,13 +56,13 @@
 					<DropdownItem href={'#'}>마감일</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
-     </div>
+            </div>
 </Col>
 
 <Col md={5}>
-			<div class="date-picker-list ">
+			<div class="date-picker-list">
 				<div
-							class="custom-date-ranger custom-date-ranger__bottom custom-date-ranger__lg position-relative d-flex align-items-center"
+					class="custom-date-ranger custom-date-ranger__bottom custom-date-ranger__lg position-relative d-flex align-items-center"
 						>
 					<div class="form-group mb-0">
 						<DatePicker 
@@ -104,7 +112,10 @@
           padding: 10.5px 10px;
           border : 1px solid var(--border-light) !important;
           font-size: 13px;
-          }
+		    @media (max-width: 760px) {
+   				 margin-top: 10px;
+  			}
+		}
     }
 .row-chose{
     display: flex;

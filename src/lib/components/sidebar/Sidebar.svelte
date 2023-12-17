@@ -182,12 +182,6 @@
 					<span class="menu-text">KPI</span>
 				</a>
 			</li>
-			<li class="menu-item">
-				<a href="/google">
-					<span class="nav-icon uil uil-chart" />
-					<span class="menu-text">구글통계</span>
-				</a>
-			</li>
 			</ul>
 		</div>
 	</Svroller>

@@ -32,14 +32,14 @@ export function createTasks(initialValue = []){
             }, 0);
         },
 
-        favorite(task){
-            task.favorite = !task.favorite;
-            setTimeout(() => {
-                update((prev)=>{
-                    return prev.filter(item => item.favorite !== item)
-                })
-            }, 0);
-        }
+        // favorite(task){
+        //     task.favorite = !task.favorite;
+        //     setTimeout(() => {
+        //         update((prev)=>{
+        //             return prev.filter(item => item.favorite !== item)
+        //         })
+        //     }, 0);
+        // }
     }
 
 }

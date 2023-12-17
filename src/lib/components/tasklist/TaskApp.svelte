@@ -1,10 +1,9 @@
 <script>
-	import { Input, Button, Modal, ModalBody, ModalHeader } from 'sveltestrap';
-	import { createTasks } from '@store/taskStore';
-	import taskData from '@data/task.json';
+	import { Input, Button, Row, Col } from 'sveltestrap';
+	import { createTasks } from '../../store/taskStore';
+	import taskData from './task.json';
 
 	export let taskLimit = 5;
-	export let header;
 	export let taskStatus;
 	export let description;
 	export let actionBtn = false;
@@ -24,77 +23,20 @@
 		const title = document.querySelector('#add-task-input').value;
 		newTask.push({ id, title, favorite: false, completed: false });
 		taskDataSorted = [...slicedData, ...newTask];
-		toggle();
+		// toggle();
 	}
 	$: tasks = createTasks(taskDataSorted);
-	let favorite = taskDataSorted.filter((item) => item.favorite);
+	// let favorite = taskDataSorted.filter((item) => item.favorite);
 	let completed = taskDataSorted.filter((item) => item.completed);
 </script>
 
 <div class="task-list-style {actionBtn ? 'task-list-style--action' : ''}">
 	<div class="ninjadash-tassklist-wrap">
-		{#if header !== ''}
-			<div class="ninjadash-tasklist-head">
-				<h2 class="ninjadash-tasklist-head__title">{header}</h2>
-			</div>
-		{/if}
+
 
 		<div class="ninjadash-tasklist-body">
-			{#if taskStatus === 'favorite'}
-				{#if favorite.length}
-					<ul class="ninjadash-tasklist">
-						{#each $tasks.filter((item) => item.favorite) as task}
-							<!-- {#each favorite as item} -->
-							<li class="ninjadash-tasklist-item">
-								<div class="ninjadash-tasklist-item__content">
-									<div class="ninjadash-tasklist-item__title">
-										<Input
-											type="checkbox"
-											checked={!!task.completed}
-											on:change={() => tasks.toggle(task)}
-											label={task.title}
-											id={task.id}
-											class="checkbox-theme-default custom-checkbox custom-checkbox--success checkbox-group__single d-flex p-0"
-										/>
-									</div>
-
-									{#if description}
-										<div class="ninjadash-tasklist-item__text">
-											<p>{task.description}</p>
-										</div>
-									{/if}
-								</div>
-								<div class="ninjadash-tasklist-item__action">
-									<a class="ninjadash-edit" href={'#'}>
-										<i class="uil uil-edit" />
-									</a>
-									<a
-										href={'#'}
-										class={`${
-											task.favorite ? 'task-favourite task-favorite--active' : 'task-favourite'
-										}`}
-										on:click|preventDefault={() => tasks.favorite(task)}
-									>
-										<i class="uil uil-star" />
-									</a>
-									<a
-										class="ninjadash-delete"
-										href={'#'}
-										on:click|preventDefault={() => tasks.remove(task)}
-									>
-										<i class="uil uil-times" />
-									</a>
-								</div>
-							</li>
-						{/each}
-						<!-- {/each} -->
-					</ul>
-				{:else}
-					<div class="ninjadash-tasklist-empty">
-						<span>Sorry !! No Favorite Task Found :(</span>
-					</div>
-				{/if}
-			{:else if taskStatus === 'completed'}
+		
+			{#if taskStatus === 'completed'}
 				{#if completed.length}
 					<ul class="ninjadash-tasklist">
 						{#each $tasks.filter((item) => item.completed) as task}
@@ -122,15 +64,7 @@
 									<a class="ninjadash-edit" href={'#'}>
 										<i class="uil uil-edit" />
 									</a>
-									<a
-										href={'#'}
-										class={`${
-											task.favorite ? 'task-favourite task-favorite--active' : 'task-favourite'
-										}`}
-										on:click|preventDefault={() => tasks.favorite(task)}
-									>
-										<i class="uil uil-star" />
-									</a>
+	
 									<a
 										class="ninjadash-delete"
 										href={'#'}
@@ -176,7 +110,7 @@
 										<a class="ninjadash-edit" href={'#'}>
 											<i class="uil uil-edit" />
 										</a>
-										<a
+										<!-- <a
 											href={'#'}
 											class={`${
 												task.favorite ? 'task-favourite task-favorite--active' : 'task-favourite'
@@ -184,7 +118,7 @@
 											on:click|preventDefault={() => tasks.favorite(task)}
 										>
 											<i class="uil uil-star" />
-										</a>
+										</a> -->
 										<a
 											class="ninjadash-delete"
 											href={'#'}
@@ -196,47 +130,22 @@
 								</li>
 							{/each}
 						</ul>
-						{#if actionBtn}
-							<div class="task-list-btn px-25 mb-25">
-								<Button
-									color="primary"
-									class="btn-default btn-squared btn-transparent-primary radius-xs fs-15 fw-400 text-capitalize"
-									on:click={toggle}
-								>
-									<i class="uil uil-plus me-1 fs-16" /> Add New Task
-								</Button>
-							</div>
-							<div class="add-todo-modal">
-								<Modal isOpen={open} {toggle}>
-									<ModalHeader {toggle} class="add-todo-header">
-										<h6 class="modal-title add-todo-title">Add New Todo</h6>
-									</ModalHeader>
-									<ModalBody>
-										<div class="add-todo-form">
-											<form action="/">
-												<div class="form-group">
-													<input
-														type="text"
-														class="form-control form-control-lg"
-														id="add-task-input"
-														name="todo-text"
-														placeholder="Write your task"
-													/>
-												</div>
-												<div class="form-group mb-0 mt-15">
-													<Button color="primary" size="lg" on:click={addTask}>Add Task</Button>
-												</div>
-											</form>
-										</div>
-									</ModalBody>
-								</Modal>
-							</div>
-						{/if}
-					{:else}
-						<div class="ninjadash-tasklist-empty">
-							<span>Sorry! No Task Found.</span>
+						<Col lg={10} class="mx-20">
+						<div class="work-list">
+							<input
+								type="text"
+								class="form-control"
+								id="add-task-input"
+								name="todo-text"
+								placeholder=""
+								/>
+								
+							<Button color="primary" size="default" class="btn-squared fs-13 mx-10" on:click={addTask}>추가</Button>	
 						</div>
-					{/if}
+						</Col>
+				
+						{/if}
+
 				</div>
 			{/if}
 		</div>
@@ -252,7 +161,17 @@
 			}
 		}
 	}
-	@import '../../../../src/assets/sass/mixins/media-queries';
+	:global {
+
+	@import '../../../assets/sass/mixins/functions';
+	@import '../../../assets/sass/components/table';
+	.btn{
+		min-width: 100px;
+	}
+	}
+	
+	
+		@import '../../../assets/sass/mixins/media-queries';
 	.task-list-style--action {
 		margin-left: 10px;
 		@include xs {
@@ -272,15 +191,15 @@
 		border-radius: 10px;
 		min-height: 220px;
 	}
-	.ninjadash-tasklist-head {
-		.ninjadash-tasklist-head__title {
-			font-size: 16px;
-			font-weight: 500;
-			padding: 15px 30px;
-			margin-bottom: 0;
-			border-bottom: 1px solid var(--border-light);
-		}
-	}
+	// .ninjadash-tasklist-head {
+	// 	.ninjadash-tasklist-head__title {
+	// 		font-size: 16px;
+	// 		font-weight: 500;
+	// 		padding: 15px 30px;
+	// 		margin-bottom: 0;
+	// 		border-bottom: 1px solid var(--border-light);
+	// 	}
+	// }
 	.ninjadash-tasklist-body {
 		.ninjadash-tasklist {
 			padding: 15px 0 21px;
@@ -350,23 +269,23 @@
 						}
 					}
 				}
-				.task-favourite {
-					line-height: 1;
-					i {
-						color: var(--color-lighten);
-					}
-					&.task-favorite--active {
-						i {
-							color: var(--color-warning);
-						}
-					}
-					i {
-						position: relative;
-						top: -2px;
-						width: 16px;
-						height: 16px;
-					}
-				}
+				// .task-favourite {
+				// 	line-height: 1;
+				// 	i {
+				// 		color: var(--color-lighten);
+				// 	}
+				// 	&.task-favorite--active {
+				// 		i {
+				// 			color: var(--color-warning);
+				// 		}
+				// 	}
+				// 	i {
+				// 		position: relative;
+				// 		top: -2px;
+				// 		width: 16px;
+				// 		height: 16px;
+				// 	}
+				// }
 				a {
 					display: inline-block;
 					margin: 0 10px;
@@ -382,9 +301,9 @@
 						}
 					}
 				}
-				.task-favourite {
-					cursor: pointer;
-				}
+				// .task-favourite {
+				// 	cursor: pointer;
+				// }
 				a {
 					display: inline-block;
 					margin: 0 10px;
@@ -416,5 +335,11 @@
 				color: var(--color-light);
 			}
 		}
+
 	}
+.work-list{
+	display:flex;
+	height: 40px;
+
+}
 </style>

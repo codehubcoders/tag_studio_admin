@@ -5,6 +5,11 @@
 	export let extraStyle = 'selling-table-wrap';
 	export let defaultTable = 'table--default';
 
+    import { goto } from '$app/navigation';
+    function goDetail() {
+     goto(`/work/workdetail`);
+    }
+
 </script>
 
 <div class="{extraStyle} table-responsive">
@@ -21,7 +26,7 @@
 		</thead>
 		<tbody>
 			{#each works as data}
-				<tr>
+				<tr on:click={goDetail}>
 					<td>{data.key}</td>
 					<td>{data.workName}</td>
 					<td>{data.name}</td>
@@ -50,16 +55,22 @@
 			border-bottom: none;
 		}
 		.table--default tr th {
+           
 			&:first-child {
 				padding-left: 15px;
-				                width: 20px !important;
+				width: 20px !important;
 			}
 
 			&:last-child {
 				padding-right: 15px;
 			}
 		}
-
+        .table--default tr{
+               &:hover{
+                cursor: pointer !important;
+                background-color: var(--bg-lighter);
+            } 
+        }
 		.table--default tr td {
 			&:first-child {
 				padding-left: 0;
@@ -72,6 +83,7 @@
 		}
 		table {
 			thead {
+                
 				tr {
 					background: var(--bg-normal);
 				}
