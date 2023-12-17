@@ -34,7 +34,7 @@
 <Col lg={10}>
 	<Card class="card-horizontal card-default card-md mb-4 mt-20 pb-20">
 		<CardHeader>
-			<h6>작업관리 - 상세</h6>
+			<h6>작업자관리 - 상세</h6>
 		</CardHeader>
 		<CardBody class="py-md-30">
 			<div class="horizontal-form">

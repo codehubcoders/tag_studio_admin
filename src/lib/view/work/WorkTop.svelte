@@ -16,14 +16,6 @@
 
     dayjs.locale('ko');
     let selectedDate;
-
-  const customPlaceholders = {
-    date: '날짜 선택',
-    month: '월 선택',
-    year: '년도 선택',
-    chooseDate: '날짜를 선택하세요'
-  };
-
 </script>
 <Row>
 <Col md={5}>
@@ -45,7 +37,7 @@
 			>
 		</form>
 	</div>
-    			<Dropdown class="dropdown-hover mx-10 rounded-3">
+    		<Dropdown class="dropdown-hover mx-10 rounded-3">
 				<DropdownToggle nav class="p-0">
 					선택
 					<img class="svg" alt="" src={'/img/svg/chevron-down.svg'} />
@@ -56,7 +48,7 @@
 					<DropdownItem href={'#'}>마감일</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
-            </div>
+     </div>
 </Col>
 
 <Col md={5}>
