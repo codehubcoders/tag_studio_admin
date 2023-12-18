@@ -4,7 +4,7 @@
 
 <div class="logo-area">
 	<NavbarBrand href={'/dashboard'}>
- <h6>태그 스튜디오</h6>
+ 		<h6>태그 스튜디오</h6>
 	</NavbarBrand>
 	<a href={'#'} class="sidebar-toggle">
 		<img class="svg" alt="" src={'/img/svg/align-center-alt.svg'} />
