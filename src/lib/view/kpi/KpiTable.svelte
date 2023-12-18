@@ -1,35 +1,52 @@
 <script>
     import { onMount } from 'svelte';
-	import kpiDatas from './kpiData.json';
-	const kpiData = kpiDatas.kpi;
+
 	export let extraStyle = 'selling-table-wrap';
 	export let defaultTable = 'table--default';
+	let printerData = [];
+	let skip = 0;
+	let take = 20;
 
+	const apiHost = 'https://tagstudioapi.codehub.codes';
+
+	onMount(async () => {
+		const response = await fetch(`${apiHost}/printerData?skip=${skip}&take=${take}`);
+		printerData = await response.json();
+	});
+
+	async function updateProductAmount(id, newAmount) {
+        await fetch(`${apiHost}/productAmount/${id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productAmount: newAmount })
+        });
+    }
+
+	function handleAmountChange(data, event) {
+        const newAmount = event.target.value;
+        updateProductAmount(data.id, newAmount);
+    }
 </script>
 
 <div class="{extraStyle} table-responsive">
 	<table class="table {defaultTable} table-borderless">
 		<thead>
 			<tr>				
-			    <th>번호</th>
-				<th>헤더1</th>
-				<th>헤더2</th>
-				<th>헤더3</th>
-				<th>헤더4</th>
-				<th>헤더5</th>
-				<th>헤더6</th>
+				<th>출력시간</th>
+				<th>소요시간</th>
+				<th>파일</th>
+				<th style="min-width: 120px">갯수</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each kpiData as data}
+			{#each printerData as data}
 				<tr>
-					<td>{data.key}</td>
-					<td>{data.id}</td>
-					<td>{data.name}</td>
-					<td>{data.phone}</td>
-					<td>{data.id}</td>
-					<td>{data.name}</td>
-					<td>{data.phone}</td>
+					<td>{new Date(data.createdDate).toLocaleString()}</td>
+					<td>{data.duration}초</td>
+					<td>{data.imagePath}</td>
+					<td>
+						<input type="number" class="form-control" value={data.productAmount} on:blur={event => handleAmountChange(data, event)} />
+                    </td>
 				</tr>
 			{/each}
 		</tbody>
