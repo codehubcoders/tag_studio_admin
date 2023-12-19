@@ -1,28 +1,50 @@
 <script>
-  import { onMount } from "svelte";
-  import workerData from "./workerData.json";
-  const workers = workerData.workers;
+  import { getContext, onMount } from "svelte";
+  import { get } from "svelte/store";
+
   export let extraStyle = "selling-table-wrap";
   export let defaultTable = "table--default";
+
+  // const apiHost = 'https://tagstudioapi.codehub.codes';
+  const apiHost = "http://localhost:3000";
+
+  const showInactive = getContext('showInactive');
+  let workers = [];
+
+  $: {
+    fetch(
+      `${apiHost}/worker/list?showInactive=${$showInactive}`
+    ).then(async (response) => {
+      workers = await response.json();
+    });
+    
+  }
+
+  // onMount(async () => {
+  //   const response = await fetch(
+  //     `${apiHost}/worker/list?showInactive=${$showInactive}`
+  //   );
+  //   workers = await response.json();
+  // });
 </script>
 
 <div class="{extraStyle} table-responsive">
   <table class="table {defaultTable} table-borderless">
     <thead>
       <tr>
-        <th>번호</th>
         <th>아이디</th>
         <th>이름</th>
-        <th>연락처</th>
+        <th>전화번호</th>
+        <th>슈퍼관리자</th>
       </tr>
     </thead>
     <tbody>
       {#each workers as data}
         <tr>
-          <td>{data.key}</td>
-          <td>{data.id}</td>
+          <td>{data.username}</td>
           <td>{data.name}</td>
-          <td>{data.phone}</td>
+          <td>{data.mobile}</td>
+          <td>{data.isSuper === true ? "Y" : "N"}</td>
         </tr>
       {/each}
     </tbody>

@@ -14,11 +14,17 @@
     Button,
   } from "sveltestrap";
   import { goto } from "$app/navigation";
+  import { get, writable } from "svelte/store";
+  import { onMount, setContext } from "svelte";
 
-  let isDisableView = true;
+  let willShowInactive = false;
 
-  function viewCheckbox() {
-    isDisableView = !isDisableView;
+  export const showInactive = writable();
+  $: showInactive.set(false);
+  setContext('showInactive', showInactive);
+
+  async function viewCheckbox() {
+    showInactive.set(!willShowInactive);
   }
 
   function addmember() {
@@ -42,7 +48,7 @@
         <div class="checkbox-theme-1 custom-checkbox check-all mb-10">
           <Input
             class="checkbox form-check-undo"
-            bind:checked={isDisableView}
+            bind:checked={willShowInactive}
             on:change={viewCheckbox}
             type="checkbox"
             label="비활성화 작업자 보기"
