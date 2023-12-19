@@ -1,11 +1,11 @@
 <script>
-	import Signin from '../../../lib/view/authentication/Signin.svelte';
+  import Signin from "../../../lib/view/authentication/Signin.svelte";
 </script>
 
 <svelte:head>
-	<title>Signin</title>
+  <title>Signin</title>
 </svelte:head>
 
 <section>
-	<Signin />
+  <Signin />
 </section>

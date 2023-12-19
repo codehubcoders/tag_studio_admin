@@ -1,13 +1,13 @@
 <script>
-	import { onMount, afterUpdate } from 'svelte';
-	import { goto } from '$app/navigation';
+  import { onMount, afterUpdate } from "svelte";
+  import { goto } from "$app/navigation";
 
-		onMount(() => {
-			goto(`/signin`);
-	});
-
+  onMount(() => {
+	// TODO: check already signed in
+    goto(`/signin`);
+  });
 </script>
 
 <main>
-	<slot />
+  <slot />
 </main>
