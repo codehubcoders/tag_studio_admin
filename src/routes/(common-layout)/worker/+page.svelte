@@ -23,6 +23,10 @@
   $: showInactive.set(false);
   setContext('showInactive', showInactive);
 
+  export const selectedWorker = writable();
+  $: selectedWorker.set(0);
+  setContext('selectedWorker', selectedWorker);
+
   async function viewCheckbox() {
     showInactive.set(!willShowInactive);
   }

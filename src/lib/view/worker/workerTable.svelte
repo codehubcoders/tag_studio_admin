@@ -1,31 +1,29 @@
 <script>
-  import { getContext, onMount } from "svelte";
-  import { get } from "svelte/store";
+  import { goto } from "$app/navigation";
+  import { getContext, onMount, setContext } from "svelte";
+  import { get, writable } from "svelte/store";
 
   export let extraStyle = "selling-table-wrap";
   export let defaultTable = "table--default";
 
-  // const apiHost = 'https://tagstudioapi.codehub.codes';
-  const apiHost = "http://localhost:3000";
+  const apiHost = "https://tagstudioapi.codehub.codes";
+  // const apiHost = "http://localhost:3000";
 
-  const showInactive = getContext('showInactive');
+  const showInactive = getContext("showInactive");
   let workers = [];
 
   $: {
-    fetch(
-      `${apiHost}/worker/list?showInactive=${$showInactive}`
-    ).then(async (response) => {
-      workers = await response.json();
-    });
-    
+    fetch(`${apiHost}/worker/list?showInactive=${$showInactive}`).then(
+      async (response) => {
+        workers = await response.json();
+      }
+    );
   }
 
-  // onMount(async () => {
-  //   const response = await fetch(
-  //     `${apiHost}/worker/list?showInactive=${$showInactive}`
-  //   );
-  //   workers = await response.json();
-  // });
+  const goToWorker = (id) => {
+    localStorage.setItem("workerId", id);
+    goto(`/worker/editmember`);
+  };
 </script>
 
 <div class="{extraStyle} table-responsive">
@@ -40,7 +38,7 @@
     </thead>
     <tbody>
       {#each workers as data}
-        <tr>
+        <tr on:click={() => goToWorker(data.id)}>
           <td>{data.username}</td>
           <td>{data.name}</td>
           <td>{data.mobile}</td>

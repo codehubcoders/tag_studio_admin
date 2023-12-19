@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
 
   export let extraStyle = "selling-table-wrap";
   export let defaultTable = "table--default";
@@ -18,36 +18,44 @@
     Button,
   } from "sveltestrap";
 
-  let username = "";
-  let name = "";
-  let mobile = "";
-  let password = "";
-  let isActive = true;
-  let isSuper = false;
+  let worker = {
+    username: "",
+    name: "",
+    mobile: "",
+    password: "",
+    isActive: true,
+    isSuper: false,
+  };
 
   const apiHost = "https://tagstudioapi.codehub.codes";
   // const apiHost = "http://localhost:3000";
 
-  const onSubmit = async () => {
-    if (!username || !name || !mobile || !password) {
+  onMount(async () => {
+    const workerId = localStorage.getItem("workerId");
+    if (!workerId) {
+      alert("잘못된 접근입니다.");
+      goto("/worker");
       return;
     }
 
-    await fetch(`${apiHost}/worker/create`, {
+    const response = await fetch(`${apiHost}/worker/get/${workerId}`);
+    worker = await response.json();
+  });
+
+  const onSubmit = async () => {
+    if (!worker.username || !worker.name || !worker.mobile) {
+      return;
+    }
+
+    const response = await fetch(`${apiHost}/worker/update`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username,
-        name,
-        mobile,
-        password,
-        isActive,
-        isSuper,
+        ...worker,
       }),
     });
 
     alert("저장되었습니다.");
-    goto("/worker");
   };
 </script>
 
@@ -73,7 +81,7 @@
                 class="form-control ih-medium ip-gray radius-xs b-light px-15"
                 id="username"
                 placeholder=""
-                bind:value={username}
+                bind:value={worker.username}
               />
             </Col>
           </Row>
@@ -91,7 +99,7 @@
                 class="form-control  ih-medium ip-gray radius-xs b-light px-15"
                 id="name"
                 placeholder=""
-                bind:value={name}
+                bind:value={worker.name}
               />
             </Col>
           </Row>
@@ -109,7 +117,7 @@
                 class="form-control  ih-medium ip-gray radius-xs b-light px-15"
                 id="mobile"
                 placeholder=""
-                bind:value={mobile}
+                bind:value={worker.mobile}
               />
             </Col>
           </Row>
@@ -127,7 +135,7 @@
                 class="form-control  ih-medium ip-gray radius-xs b-light px-15"
                 id="password"
                 placeholder=""
-                bind:value={password}
+                bind:value={worker.password}
               />
             </Col>
           </Row>
@@ -144,7 +152,7 @@
                 <Input
                   id="isActive"
                   class="form-switch-primary  form-switch-lg"
-                  bind:checked={isActive}
+                  bind:checked={worker.isActive}
                   type="switch"
                   label=""
                 />
@@ -164,7 +172,7 @@
                 <Input
                   id="isSuper"
                   class="checkbox form-check-undo"
-                  bind:checked={isSuper}
+                  bind:checked={worker.isSuper}
                   type="checkbox"
                   label="슈퍼관리자"
                 />
