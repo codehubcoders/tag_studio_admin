@@ -19,8 +19,8 @@
   import { setItem } from "../../utility/localStorageController";
   import { onMount } from "svelte";
 
-  // const apiHost = "https://tagstudioapi.codehub.codes";
-  const apiHost = "http://localhost:3000";
+  const apiHost = "https://tagstudioapi.codehub.codes";
+  // const apiHost = "http://localhost:3000";
 
   onMount(() => {
     $form.username = localStorage.getItem("username") || "";
@@ -62,6 +62,8 @@
 
         localStorage.setItem("username", username);
         localStorage.setItem("token", result.token);
+        localStorage.setItem("name", result.name);
+        localStorage.setItem("isSuper", result.isSuper ? "Y" : "N");
 
         goto(`/dashboard`);
       }
