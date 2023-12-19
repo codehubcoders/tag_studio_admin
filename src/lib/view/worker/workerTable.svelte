@@ -11,17 +11,32 @@
 
   const showInactive = getContext("showInactive");
   let workers = [];
+  let token = "";
 
-  $: {
-    const token = localStorage.getItem("token");
+  onMount(() => {
+    token = localStorage.getItem("token") || "";
 
     fetch(`${apiHost}/worker/list?showInactive=${$showInactive}`, {
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
-    }).then(
-      async (response) => {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(async (response) => {
+      workers = await response.json();
+    });
+  });
+
+  $: {
+    if (token.length) {
+      fetch(`${apiHost}/worker/list?showInactive=${$showInactive}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(async (response) => {
         workers = await response.json();
-      }
-    );
+      });
+    }
   }
 
   const goToWorker = (id) => {
