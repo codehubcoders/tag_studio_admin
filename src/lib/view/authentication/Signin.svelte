@@ -17,23 +17,54 @@
   import * as yup from "yup";
   import Checkbox from "../../components/checkbox/Checkbox.svelte";
   import { setItem } from "../../utility/localStorageController";
+  import { onMount } from "svelte";
+
+  // const apiHost = "https://tagstudioapi.codehub.codes";
+  const apiHost = "http://localhost:3000";
+
+  onMount(() => {
+    $form.username = localStorage.getItem("username") || "";
+  });
 
   let visible = true;
   let loader = false;
 
   const loginSchema = yup.object().shape({
-    email: yup.string().email().required(),
+    username: yup.string().required(),
     password: yup.string().required(),
   });
 
   const { form, errors, handleChange, handleSubmit } = createForm({
     initialValues: {
-      email: "tagstudio@email.com",
-      password: "12345678",
+      username: "",
+      password: "",
     },
     validationSchema: loginSchema,
-    onSubmit: () => {
-      goto(`/dashboard`);
+    onSubmit: async (values) => {
+      const { username, password } = values;
+
+      const resposne = await fetch(`${apiHost}/auth/signIn`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      if (!resposne.ok) {
+        alert("아이디와 비밀번호가 맞지 않습니다.");
+        return;
+      }
+
+      if (resposne.ok) {
+        const result = await resposne.json();
+
+        localStorage.setItem("username", username);
+        localStorage.setItem("token", result.token);
+
+        goto(`/dashboard`);
+      }
     },
   });
   const handleCheckBox = () => {};
@@ -58,23 +89,23 @@
                 <form on:submit|preventDefault={handleSubmit}>
                   <div class="edit-profile__body">
                     <FormGroup class="form-group mb-25">
-                      <Label for="username">Email</Label>
+                      <Label for="username">아이디</Label>
                       <Input
                         on:change={handleChange}
-                        bind:value={$form.email}
-                        invalid={$errors.email.length > 0}
-                        type="email"
+                        bind:value={$form.username}
+                        invalid={$errors.username.length > 0}
+                        type="text"
                         class="form-control"
-                        id="email"
-                        name="email"
-                        placeholder="이메일을 입력해 주세요"
+                        id="username"
+                        name="username"
+                        placeholder="아이디를 입력해 주세요"
                       />
-                      {#if $errors.email}
-                        <div class="invalid-feedback">{$errors.email}</div>
+                      {#if $errors.username}
+                        <div class="invalid-feedback">{$errors.username}</div>
                       {/if}
                     </FormGroup>
                     <FormGroup class="form-group mb-15">
-                      <Label for="password">password</Label>
+                      <Label for="password">비밀번호</Label>
                       <div class="position-relative">
                         <Input
                           on:change={handleChange}
@@ -84,7 +115,7 @@
                           class="form-control"
                           id="password"
                           name="password"
-                          placeholder="Password"
+                          placeholder="비밀번호를 입력해 주세요"
                         />
                         {#if $errors.password}
                           <div class="invalid-feedback">{$errors.password}</div>

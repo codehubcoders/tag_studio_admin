@@ -3,7 +3,6 @@
   import { goto } from "$app/navigation";
 
   onMount(() => {
-	// TODO: check already signed in
     goto(`/signin`);
   });
 </script>
