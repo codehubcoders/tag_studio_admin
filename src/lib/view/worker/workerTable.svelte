@@ -13,7 +13,11 @@
   let workers = [];
 
   $: {
-    fetch(`${apiHost}/worker/list?showInactive=${$showInactive}`).then(
+    const token = localStorage.getItem("token");
+
+    fetch(`${apiHost}/worker/list?showInactive=${$showInactive}`, {
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
+    }).then(
       async (response) => {
         workers = await response.json();
       }

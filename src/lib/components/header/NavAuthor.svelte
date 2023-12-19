@@ -8,13 +8,12 @@
 
   onMount(() => {
     signedInName = localStorage.getItem("name") || "";
-	console.log(localStorage.getItem("isSuper"));
     isSuper = localStorage.getItem("isSuper") === "Y";
   });
 
   const handleSignOut = (event) => {
     event.preventDefault();
-	
+
     localStorage.clear();
     goto(`/signin`);
   };

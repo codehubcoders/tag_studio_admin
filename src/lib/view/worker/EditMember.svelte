@@ -38,7 +38,14 @@
       return;
     }
 
-    const response = await fetch(`${apiHost}/worker/get/${workerId}`);
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${apiHost}/worker/get/${workerId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     worker = await response.json();
   });
 
@@ -47,9 +54,14 @@
       return;
     }
 
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${apiHost}/worker/update`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         ...worker,
       }),
