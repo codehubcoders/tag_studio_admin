@@ -22,16 +22,21 @@
   import { Textarea } from "svelte-forms-lib";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
+  import { DateTime } from "luxon";
+  import { writable } from "svelte/store";
 
   dayjs.locale("ko");
 
   let adminList = [];
   let selectedAdmin;
+
   const workData = {
+    id: 0,
     name: "",
     folderPath: "",
     adminId: null,
     orderDate: null,
+    shippingDate: null,
     memo: "",
   };
 
@@ -39,15 +44,45 @@
   // const apiHost = "http://localhost:3000";
 
   onMount(async () => {
+    const workId = localStorage.getItem("workId");
+    if (!workId) {
+      alert("잘못된 접근입니다.");
+      goto("/work");
+      return;
+    }
+
     const token = localStorage.getItem("token") || "";
 
-    const response = await fetch(`${apiHost}/worker/list?showInactive=false`, {
+    let response = await fetch(`${apiHost}/worker/list?showInactive=false`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
     adminList = await response.json();
+
+
+    response = await fetch(`${apiHost}/work/get/${workId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const work = await response.json();
+    workData.id = work.id;
+    workData.adminId = work.adminId;
+    workData.folderPath = work.folderPath;
+    workData.memo = work.memo;
+    workData.name = work.name;
+    workData.orderDate = new Date(work.orderDate);
+    if (work.shippingDate) {
+      workData.shippingDate = new Date(work.shippingDate);
+    }
+
+    const index = adminList.findIndex((row) => row.id === work.adminId);
+    if (index !== -1) {
+      selectedAdmin = adminList[index];
+    }
   });
 
   const onClickAdmin = (admin) => {
@@ -56,12 +91,13 @@
   };
 
   const onSubmit = async () => {
+    console.log(workData);
     if (!workData.adminId || !workData.name || !workData.orderDate) {
       return;
     }
     const token = localStorage.getItem("token") || "";
 
-    await fetch(`${apiHost}/work/create`, {
+    await fetch(`${apiHost}/work/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -167,6 +203,31 @@
                     />
                   </div>
                 </div>
+              </div>
+              {DateTime.fromJSDate(workData.orderDate).toFormat("yyyy.MM.dd")}
+            </Col>
+          </Row>
+          <Row class="mb-25 form-group">
+            <Col sm={3} class="d-flex aling-items-center">
+              <Label
+                class=" col-form-label color-dark fs-14 fw-500 align-center"
+                >출하일</Label
+              >
+            </Col>
+            <Col sm={9}>
+              <div
+                class="custom-date-picker custom-date-picker__bottom custom-date-picker__lg"
+              >
+                <div class="form-group mb-0 form-group-calender">
+                  <div class="position-relative">
+                    <DatePicker
+                      bind:selected={workData.shippingDate}
+                      format="YYYY.MM.DD"
+                      placeholder="날짜선택"
+                      continueText="선택"
+                    />
+                  </div>
+                </div>
               </div></Col
             >
           </Row>
@@ -196,7 +257,7 @@
                   on:click={onSubmit}
                   color="primary"
                   size="default"
-                  class="btn-squared px-30 fs-13">수동생성</Button
+                  class="btn-squared px-30 fs-13">저장</Button
                 >
               </div>
             </Col>
