@@ -29,9 +29,9 @@
           on:click={addwork}>작업수동생성</Button
         >
       </CardHeader>
-      <CardBody class="">
+      <!-- <CardBody class="">
         <WorkTop />
-      </CardBody>
+      </CardBody> -->
     </Card>
     <Card class="card-horizontal card-default card-md mb-4 mt-20">
       <CardBody class="">
