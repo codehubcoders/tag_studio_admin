@@ -1,18 +1,20 @@
 <script>
   import { onMount } from "svelte";
+  import { Pagination, PaginationItem, PaginationLink } from "sveltestrap";
 
   export let extraStyle = "selling-table-wrap";
   export let defaultTable = "table--default";
   let printerData = [];
   let skip = 0;
   let take = 20;
+  let pages = [];
 
   const apiHost = "https://tagstudioapi.codehub.codes";
 
   onMount(async () => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
+    let response = await fetch(
       `${apiHost}/printerData?skip=${skip}&take=${take}`,
       {
         headers: {
@@ -22,6 +24,20 @@
       }
     );
     printerData = await response.json();
+
+    response = await fetch(
+      `${apiHost}/printerDataCount`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const result = await response.json();
+    const total = result.total || 0;
+    pages = Array.from({ length: Math.ceil(total / take) }, (_, index) => index + 1);
   });
 
   async function updateProductAmount(id, newAmount) {
@@ -41,6 +57,23 @@
     const newAmount = event.target.value;
     updateProductAmount(data.id, newAmount);
   }
+
+  const onSelectPage = async (page) => {
+    skip = (page - 1) === 0 ? 0 : (page - 1) * take;
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      `${apiHost}/printerData?skip=${skip}&take=${take}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    printerData = await response.json();
+  };
 </script>
 
 <div class="{extraStyle} table-responsive">
@@ -71,6 +104,13 @@
       {/each}
     </tbody>
   </table>
+  <Pagination ariaLabel="Page navigation">
+    {#each pages as page}
+      <PaginationItem active={((skip === 0 ? 0 : skip / take) + 1) === page}>
+        <PaginationLink on:click={() => onSelectPage(page)}>{page}</PaginationLink>
+      </PaginationItem>
+    {/each}
+  </Pagination>
 </div>
 
 <style lang="scss">
