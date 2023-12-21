@@ -132,7 +132,7 @@
         <th>소요시간</th>
         <th>KPI대상</th>
         <th>파일</th>
-        <th style="min-width: 120px">제품수량</th>
+        <th>제품수량</th>
       </tr>
     </thead>
     <tbody>
@@ -157,7 +157,7 @@
               />
             </div>
           </td>
-          <td>{data.imagePath}</td>
+          <td>{data.fileName}</td>
           <td>
             <input
               type="number"
@@ -173,7 +173,7 @@
 
   <Row>
     <Col md={6}>
-      오늘 평균:
+      지난 15일 평균 KPI[P] 시간당 생산량 증가분 :
       <span class="growth-status {growth === 'upward' ? 'color-success' : 'color-danger'}">
         {#if growth === 'upward'}
           <span class="uil uil-arrow-up" />
