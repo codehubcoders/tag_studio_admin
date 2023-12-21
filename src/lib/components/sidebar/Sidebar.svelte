@@ -3,7 +3,7 @@
 	import { Svroller } from 'svrollbar';
 	import { page } from '$app/stores';
 	import { direction } from '../../store/direction.js';
-	
+
 	let urlPath;
 	$: urlPath = $page.url.pathname;
 
@@ -179,7 +179,7 @@
 			<li class="menu-item">
 				<a href="/kpi">
 					<span class="nav-icon uil uil-airplay" />
-					<span class="menu-text">KPI</span>
+					<span class="menu-text">KPI [P]</span>
 				</a>
 			</li>
 			</ul>
@@ -194,6 +194,6 @@
 
 		$dir: ltr;
 	}
-</style> 
+</style>
 
 

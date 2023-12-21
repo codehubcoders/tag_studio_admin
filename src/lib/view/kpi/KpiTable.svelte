@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { Pagination, PaginationItem, PaginationLink } from "sveltestrap";
+  import { Col, Input, Pagination, PaginationItem, PaginationLink, Row } from "sveltestrap";
 
   export let extraStyle = "selling-table-wrap";
   export let defaultTable = "table--default";
@@ -9,7 +9,12 @@
   let take = 20;
   let pages = [];
 
+  let growth = 'upward';
+  let growthRate = 0;
+  let growthValue = 0;
+
   const apiHost = "https://tagstudioapi.codehub.codes";
+  // const apiHost = "http://localhost:3000";
 
   onMount(async () => {
     const token = localStorage.getItem("token");
@@ -21,23 +26,35 @@
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     printerData = await response.json();
 
-    response = await fetch(
-      `${apiHost}/printerDataCount`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    response = await fetch(`${apiHost}/printerDataCount`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    let result = await response.json();
+    const total = result.total || 0;
+    pages = Array.from(
+      { length: Math.ceil(total / take) },
+      (_, index) => index + 1,
     );
 
-    const result = await response.json();
-    const total = result.total || 0;
-    pages = Array.from({ length: Math.ceil(total / take) }, (_, index) => index + 1);
+    response = await fetch(`${apiHost}/averageProduction`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    result = await response.json();
+    growthRate = result.rate.toFixed(2);
+    growthValue = result.average.toFixed(2);
+    growth = result.rate > 0 ? 'upward' : 'downward';
   });
 
   async function updateProductAmount(id, newAmount) {
@@ -53,13 +70,43 @@
     });
   }
 
+  async function updateIsTest(id, newValue) {
+    const token = localStorage.getItem("token");
+
+    await fetch(`${apiHost}/isTest/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ isTest: newValue }),
+    });
+
+    const response = await fetch(`${apiHost}/work/average`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    growthRate = result.rate.toFixed(2);
+    growthValue = result.average.toFixed(2);
+    growth = result.rate > 0 ? 'upward' : 'downward';
+  }
+
   function handleAmountChange(data, event) {
     const newAmount = event.target.value;
     updateProductAmount(data.id, newAmount);
+
+  }
+  function handleIsTestChange(data) {
+    console.log(data.id, data.isTest)
+    updateIsTest(data.id, !data.isTest);
   }
 
   const onSelectPage = async (page) => {
-    skip = (page - 1) === 0 ? 0 : (page - 1) * take;
+    skip = page - 1 === 0 ? 0 : (page - 1) * take;
 
     const token = localStorage.getItem("token");
 
@@ -70,7 +117,7 @@
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     printerData = await response.json();
   };
@@ -81,22 +128,41 @@
     <thead>
       <tr>
         <th>출력시간</th>
+        <th>시간당생산</th>
         <th>소요시간</th>
+        <th>KPI대상</th>
         <th>파일</th>
-        <th style="min-width: 120px">갯수</th>
+        <th style="min-width: 120px">제품수량</th>
       </tr>
     </thead>
     <tbody>
       {#each printerData as data}
         <tr>
           <td>{new Date(data.createdDate).toLocaleString()}</td>
+          <td
+            >{data.productAmount
+              ? (data.productAmount / (data.duration / 3600)).toFixed(2)
+              : ""}</td
+          >
           <td>{data.duration}초</td>
+          <td>
+            <div class="custom-switch-wrap d-flex align-items-center">
+              <Input
+                id="isTest"
+                class="form-switch-primary form-switch-lg"
+                bind:checked={data.isTest}
+                on:change={(event) => handleIsTestChange(data)}
+                type="switch"
+                label=""
+              />
+            </div>
+          </td>
           <td>{data.imagePath}</td>
           <td>
             <input
               type="number"
               class="form-control"
-              value={data.productAmount}
+              bind:value={data.productAmount}
               on:blur={(event) => handleAmountChange(data, event)}
             />
           </td>
@@ -104,13 +170,42 @@
       {/each}
     </tbody>
   </table>
-  <Pagination ariaLabel="Page navigation">
+
+  <Row>
+    <Col md={6}>
+      오늘 평균:
+      <span class="growth-status {growth === 'upward' ? 'color-success' : 'color-danger'}">
+        {#if growth === 'upward'}
+          <span class="uil uil-arrow-up" />
+        {:else}
+          <span class="uil uil-arrow-down" />
+        {/if}
+        <strong>{growthRate}%</strong>
+        <small>({growthValue})</small>
+      </span>
+    </Col>
+    <Col md={6}>
+      <Pagination ariaLabel="Page navigation">
+        {#each pages as page}
+          <PaginationItem active={(skip === 0 ? 0 : skip / take) + 1 === page}>
+            <PaginationLink on:click={() => onSelectPage(page)}
+              >{page}</PaginationLink
+            >
+          </PaginationItem>
+        {/each}
+      </Pagination>
+    </Col>
+  </Row>
+
+  <!-- <Pagination ariaLabel="Page navigation">
     {#each pages as page}
-      <PaginationItem active={((skip === 0 ? 0 : skip / take) + 1) === page}>
-        <PaginationLink on:click={() => onSelectPage(page)}>{page}</PaginationLink>
+      <PaginationItem active={(skip === 0 ? 0 : skip / take) + 1 === page}>
+        <PaginationLink on:click={() => onSelectPage(page)}
+          >{page}</PaginationLink
+        >
       </PaginationItem>
     {/each}
-  </Pagination>
+  </Pagination> -->
 </div>
 
 <style lang="scss">
