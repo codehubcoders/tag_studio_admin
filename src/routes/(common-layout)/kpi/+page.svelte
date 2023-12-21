@@ -6,7 +6,7 @@
 
 <Card class="card-horizontal card-default card-md mb-4 mt-20">
 	<CardHeader>
-		<h6> [P]</h6>
+		<h6>KPI [P]</h6>
 	</CardHeader>
 	<CardBody class="">
         <KpiTable />
